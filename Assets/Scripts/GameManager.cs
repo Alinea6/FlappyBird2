@@ -8,7 +8,9 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject loseUI;
     public int points = 0;
+    public int record;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI recordText;
 
     public void StartGame()
     {
@@ -27,6 +29,14 @@ public class GameManager : Singleton<GameManager>
     }
     public void OnGameOver()
     {
+        record = PlayerPrefs.GetInt("record", 0);
+        if (points > record)
+        {
+            record = points;
+            PlayerPrefs.SetInt("record", record);
+        }
+        
+        recordText.text = $"Record: {PlayerPrefs.GetInt("record")}";
         ShowLoseUI();
         Time.timeScale = 0;
     }
